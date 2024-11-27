@@ -4,13 +4,17 @@ import Login from './Pages/login';
 
 function App() {
   const [showExpense, setShowExpense] = useState(false);
+  const [uidValue, setUidValue] = useState('');
 
   return (
     <>
       {showExpense ? (
-        <ExpenseTracker />
+        <ExpenseTracker userUidValue={uidValue} />
       ) : (
-        <Login onExpenseHandle={() => setShowExpense(true)} />
+        <Login
+          onExpenseHandle={() => setShowExpense(true)}
+          onIdHandle={(value) => setUidValue(value)}
+        />
       )}
     </>
   );
