@@ -7,8 +7,9 @@ const ExpenseTracker = () => {
   const [totalDebit, setTotalDebit] = useState(0);
   const [totalCredit, setTotalCredit] = useState(0);
   const [isAddExpenseFormVisible, setIsAddExpenseFormVisible] = useState(false);
-  const [isEditing, setIsEditing] = useState(false); // Single editing state
-  const [editingExpense, setEditingExpense] = useState(null); // Expense being edited
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingExpense, setEditingExpense] = useState(null);
+  const [editingField, setEditingField] = useState(null); // New state
 
   useEffect(() => {
     // Fetch expenses from a data source (e.g., API, local storage)
@@ -42,6 +43,11 @@ const ExpenseTracker = () => {
     setTotalCredit(totalCredit + Number(newExpense.credit));
     setIsAddExpenseFormVisible(false);
   };
+  const handleEditExpense = (expense) => {
+    setIsEditing(true);
+    setEditingExpense(expense);
+    setEditingField(null); // Reset editing field on new edit
+  };
 
   const handleDeleteExpense = (id) => {
     const updatedExpenses = expenses.filter((expense) => expense.id !== id);
@@ -60,18 +66,15 @@ const ExpenseTracker = () => {
     setTotalCredit(newTotalCredit);
   };
 
-  const handleEdit = (expense) => {
-    setIsEditing(true);
-    setEditingExpense(expense);
-  };
+  // const handleEdit = (expense) => {
+  //   setIsEditing(true);
+  //   setEditingExpense(expense);
+  // };
 
   const handleSaveEdit = (editedExpense) => {
     const updatedExpenses = expenses.map((expense) => {
       if (expense.id === editedExpense.id) {
-        return {
-          ...editedExpense,
-          date: new Date().toISOString().slice(0, 10),
-        }; // Update date on save
+        return editedExpense;
       }
       return expense;
     });
@@ -91,6 +94,7 @@ const ExpenseTracker = () => {
 
     setIsEditing(false);
     setEditingExpense(null);
+    setEditingField(null);
   };
 
   return (
@@ -116,9 +120,11 @@ const ExpenseTracker = () => {
             <tr key={expense.id}>
               <td>{index + 1}</td>
               <td>
-                {isEditing && expense.id === editingExpense.id ? (
+                {isEditing &&
+                expense.id === editingExpense.id &&
+                editingField === 'name' ? (
                   <input
-                  key={`name-${expense.id}`}
+                    key={`name-${expense.id}`}
                     type="text"
                     value={editingExpense.name}
                     onChange={(e) =>
@@ -131,19 +137,30 @@ const ExpenseTracker = () => {
                 ) : (
                   <div>{expense.name}</div>
                 )}
-                {isEditing && expense.id === editingExpense.id ? (
+                {isEditing &&
+                expense.id === editingExpense.id &&
+                editingField === 'name' ? (
                   <button onClick={() => handleSaveEdit(editingExpense)}>
                     Save
                   </button>
                 ) : (
-                  <button onClick={() => handleEdit(expense)}>Edit</button>
+                  <button
+                    onClick={() => {
+                      handleEditExpense(expense);
+                      setEditingField('name');
+                    }}
+                  >
+                    Edit
+                  </button>
                 )}
               </td>
               <td>{expense.date}</td>
               <td>
-                {isEditing && expense.id === editingExpense.id ? (
+                {isEditing &&
+                expense.id === editingExpense.id &&
+                editingField === 'credit' ? (
                   <input
-                  key={`credit-${expense.id}`}
+                    key={`credit-${expense.id}`}
                     type="number"
                     value={editingExpense.credit}
                     onChange={(e) =>
@@ -156,18 +173,29 @@ const ExpenseTracker = () => {
                 ) : (
                   <div>{expense.credit}</div>
                 )}
-                {isEditing && expense.id === editingExpense.id ? (
+                {isEditing &&
+                expense.id === editingExpense.id &&
+                editingField === 'credit' ? (
                   <button onClick={() => handleSaveEdit(editingExpense)}>
                     Save
                   </button>
                 ) : (
-                  <button onClick={() => handleEdit(expense)}>Edit</button>
+                  <button
+                    onClick={() => {
+                      handleEditExpense(expense);
+                      setEditingField('credit');
+                    }}
+                  >
+                    Edit
+                  </button>
                 )}
               </td>
               <td>
-                {isEditing && expense.id === editingExpense.id ? (
+                {isEditing &&
+                expense.id === editingExpense.id &&
+                editingField === 'debit' ? (
                   <input
-                  key={`debit-${expense.id}`}
+                    key={`debit-${expense.id}`}
                     type="number"
                     value={editingExpense.debit}
                     onChange={(e) =>
@@ -180,24 +208,33 @@ const ExpenseTracker = () => {
                 ) : (
                   <div>{expense.debit}</div>
                 )}
-                {isEditing && expense.id === editingExpense.id ? (
+                {isEditing &&
+                expense.id === editingExpense.id &&
+                editingField === 'debit' ? (
                   <button onClick={() => handleSaveEdit(editingExpense)}>
                     Save
                   </button>
                 ) : (
-                  <button onClick={() => handleEdit(expense)}>Edit</button>
+                  <button
+                    onClick={() => {
+                      handleEditExpense(expense);
+                      setEditingField('debit');
+                    }}
+                  >
+                    Edit
+                  </button>
                 )}
               </td>
               <td>
-                {isEditing && expense.id === editingExpense.id ? (
+                {/* {isEditing && expense.id === editingExpense.id ? (
                   <button onClick={() => handleSaveEdit(editingExpense)}>
                     Save
                   </button>
-                ) : (
+                ) : ( */}
                   <button onClick={() => handleDeleteExpense(expense.id)}>
                     Delete
                   </button>
-                )}
+                {/* )} */}
               </td>
             </tr>
           ))}

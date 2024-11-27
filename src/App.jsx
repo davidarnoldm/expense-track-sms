@@ -1,13 +1,19 @@
-import ExpenseTracker from './Pages/expenseTracker'
+import { useState } from 'react';
+import ExpenseTracker from './Pages/expenseTracker';
+import Login from './Pages/login';
 
 function App() {
-  // const [count, setCount] = useState(0)
+  const [showExpense, setShowExpense] = useState(false);
 
   return (
     <>
-      <ExpenseTracker />
+      {showExpense ? (
+        <ExpenseTracker />
+      ) : (
+        <Login onExpenseHandle={() => setShowExpense(true)} />
+      )}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
