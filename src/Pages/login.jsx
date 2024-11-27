@@ -69,7 +69,8 @@ function LoginPage({ onExpenseHandle, onIdHandle }) {
     <div className="login-page">
       <div className="login-card">
         <div className="left-side">
-          <h2>Welcome to My App</h2>
+          <h1>Welcome to Expense Tracker Website</h1>
+          <h4>This project is built solely for the purpose of College Project</h4>
         </div>
         <div className="right-side">
           <form onSubmit={handleSubmit}>
