@@ -38,8 +38,14 @@ const ExpenseTracker = ({ userUidValue }) => {
 
         setExpenses(fetchedExpenses);
 
-        const initialDebit = fetchedExpenses.reduce((acc, expense) => acc + expense.debit, 0);
-        const initialCredit = fetchedExpenses.reduce((acc, expense) => acc + expense.credit, 0);
+        const initialDebit = fetchedExpenses.reduce(
+          (acc, expense) => acc + Number(expense.debit),
+          0
+        );
+        const initialCredit = fetchedExpenses.reduce(
+          (acc, expense) => acc + Number(expense.credit),
+          0
+        );
 
         setTotalDebit(initialDebit);
         setTotalCredit(initialCredit);
@@ -95,11 +101,11 @@ const ExpenseTracker = ({ userUidValue }) => {
 
       // Update total debit and credit after deletion
       const newTotalDebit = updatedExpenses.reduce(
-        (acc, expense) => acc + expense.debit,
+        (acc, expense) => acc + Number(expense.debit),
         0
       );
       const newTotalCredit = updatedExpenses.reduce(
-        (acc, expense) => acc + expense.credit,
+        (acc, expense) => acc + Number(expense.credit),
         0
       );
       setTotalDebit(newTotalDebit);
@@ -120,11 +126,11 @@ const ExpenseTracker = ({ userUidValue }) => {
 
     // Update total debit and credit after editing
     const newTotalDebit = updatedExpenses.reduce(
-      (acc, expense) => acc + expense.debit,
+      (acc, expense) => acc + Number(expense.debit),
       0
     );
     const newTotalCredit = updatedExpenses.reduce(
-      (acc, expense) => acc + expense.credit,
+      (acc, expense) => acc + Number(expense.credit),
       0
     );
     setTotalDebit(newTotalDebit);
@@ -137,154 +143,156 @@ const ExpenseTracker = ({ userUidValue }) => {
 
   return (
     <div className="expense-tracker">
-      <button onClick={handleAddExpense}>Add New Expense</button>
-
-      {isAddExpenseFormVisible && (
+      {isAddExpenseFormVisible ? (
         <ExpenseForm onSubmit={handleExpenseSubmit} />
-      )}
-      <table>
-        <thead>
-          <tr>
-            <th>S.No</th>
-            <th>Expense Name</th>
-            <th>Date of Entry</th>
-            <th>Credit</th>
-            <th>Debit</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {expenses.map((expense, index) => (
-            <tr key={expense.id}>
-              <td>{index + 1}</td>
-              <td>
-                {isEditing &&
-                expense.id === editingExpense.id &&
-                editingField === 'name' ? (
-                  <input
-                    key={`name-${expense.id}`}
-                    type="text"
-                    value={editingExpense.name}
-                    onChange={(e) =>
-                      setEditingExpense({
-                        ...editingExpense,
-                        name: e.target.value,
-                      })
-                    }
-                  />
-                ) : (
-                  <div>{expense.name}</div>
-                )}
-                {isEditing &&
-                expense.id === editingExpense.id &&
-                editingField === 'name' ? (
-                  <button onClick={() => handleSaveEdit(editingExpense)}>
-                    Save
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => {
-                      handleEditExpense(expense);
-                      setEditingField('name');
-                    }}
-                  >
-                    Edit
-                  </button>
-                )}
-              </td>
-              <td>{expense.date}</td>
-              <td>
-                {isEditing &&
-                expense.id === editingExpense.id &&
-                editingField === 'credit' ? (
-                  <input
-                    key={`credit-${expense.id}`}
-                    type="number"
-                    value={editingExpense.credit}
-                    onChange={(e) =>
-                      setEditingExpense({
-                        ...editingExpense,
-                        credit: Number(e.target.value),
-                      })
-                    }
-                  />
-                ) : (
-                  <div>{expense.credit}</div>
-                )}
-                {isEditing &&
-                expense.id === editingExpense.id &&
-                editingField === 'credit' ? (
-                  <button onClick={() => handleSaveEdit(editingExpense)}>
-                    Save
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => {
-                      handleEditExpense(expense);
-                      setEditingField('credit');
-                    }}
-                  >
-                    Edit
-                  </button>
-                )}
-              </td>
-              <td>
-                {isEditing &&
-                expense.id === editingExpense.id &&
-                editingField === 'debit' ? (
-                  <input
-                    key={`debit-${expense.id}`}
-                    type="number"
-                    value={editingExpense.debit}
-                    onChange={(e) =>
-                      setEditingExpense({
-                        ...editingExpense,
-                        debit: Number(e.target.value),
-                      })
-                    }
-                  />
-                ) : (
-                  <div>{expense.debit}</div>
-                )}
-                {isEditing &&
-                expense.id === editingExpense.id &&
-                editingField === 'debit' ? (
-                  <button onClick={() => handleSaveEdit(editingExpense)}>
-                    Save
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => {
-                      handleEditExpense(expense);
-                      setEditingField('debit');
-                    }}
-                  >
-                    Edit
-                  </button>
-                )}
-              </td>
-              <td>
-                {/* {isEditing && expense.id === editingExpense.id ? (
-                  <button onClick={() => handleSaveEdit(editingExpense)}>
-                    Save
-                  </button>
-                ) : ( */}
-                <button onClick={() => handleDeleteExpense(expense.id)}>
-                  Delete
+      ) : (
+        <>
+          <button onClick={handleAddExpense}>Add New Expense</button>
+          <table>
+            <thead>
+              <tr>
+                <th>S.No</th>
+                <th>Expense Name</th>
+                <th>Date of Entry</th>
+                <th>Credit</th>
+                <th>Debit</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {expenses.map((expense, index) => (
+                <tr key={expense.id}>
+                  <td>{index + 1}</td>
+                  <td>
+                    {isEditing &&
+                    expense.id === editingExpense.id &&
+                    editingField === 'name' ? (
+                      <input
+                        key={`name-${expense.id}`}
+                        type="text"
+                        value={editingExpense.name}
+                        onChange={(e) =>
+                          setEditingExpense({
+                            ...editingExpense,
+                            name: e.target.value,
+                          })
+                        }
+                      />
+                    ) : (
+                      <div>{expense.name}</div>
+                    )}
+                    {isEditing &&
+                    expense.id === editingExpense.id &&
+                    editingField === 'name' ? (
+                      <button onClick={() => handleSaveEdit(editingExpense)}>
+                        Save
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => {
+                          handleEditExpense(expense);
+                          setEditingField('name');
+                        }}
+                      >
+                        Edit
+                      </button>
+                    )}
+                  </td>
+                  <td>{expense.date}</td>
+                  <td>
+                    {isEditing &&
+                    expense.id === editingExpense.id &&
+                    editingField === 'credit' ? (
+                      <input
+                        key={`credit-${expense.id}`}
+                        type="number"
+                        value={editingExpense.credit}
+                        onChange={(e) =>
+                          setEditingExpense({
+                            ...editingExpense,
+                            credit: Number(e.target.value),
+                          })
+                        }
+                      />
+                    ) : (
+                      <div>{expense.credit}</div>
+                    )}
+                    {isEditing &&
+                    expense.id === editingExpense.id &&
+                    editingField === 'credit' ? (
+                      <button onClick={() => handleSaveEdit(editingExpense)}>
+                        Save
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => {
+                          handleEditExpense(expense);
+                          setEditingField('credit');
+                        }}
+                      >
+                        Edit
+                      </button>
+                    )}
+                  </td>
+                  <td>
+                    {isEditing &&
+                    expense.id === editingExpense.id &&
+                    editingField === 'debit' ? (
+                      <input
+                        key={`debit-${expense.id}`}
+                        type="number"
+                        value={editingExpense.debit}
+                        onChange={(e) =>
+                          setEditingExpense({
+                            ...editingExpense,
+                            debit: Number(e.target.value),
+                          })
+                        }
+                      />
+                    ) : (
+                      <div>{expense.debit}</div>
+                    )}
+                    {isEditing &&
+                    expense.id === editingExpense.id &&
+                    editingField === 'debit' ? (
+                      <button onClick={() => handleSaveEdit(editingExpense)}>
+                        Save
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => {
+                          handleEditExpense(expense);
+                          setEditingField('debit');
+                        }}
+                      >
+                        Edit
+                      </button>
+                    )}
+                  </td>
+                  <td>
+                    {/* {isEditing && expense.id === editingExpense.id ? (
+                <button onClick={() => handleSaveEdit(editingExpense)}>
+                  Save
                 </button>
-                {/* )} */}
-              </td>
-            </tr>
-          ))}
-          <tr>
-            <td colSpan="3" className="total-label">
-              Total
-            </td>
-            <td>{totalCredit}</td>
-            <td>{totalDebit}</td>
-          </tr>
-        </tbody>
-      </table>
+              ) : ( */}
+                    <button onClick={() => handleDeleteExpense(expense.id)}>
+                      Delete
+                    </button>
+                    {/* )} */}
+                  </td>
+                </tr>
+              ))}
+              <tr>
+                <td colSpan="3" className="total-label">
+                  Total
+                </td>
+                <td>{totalCredit}</td>
+                <td>{totalDebit}</td>
+              </tr>
+            </tbody>
+          </table>{' '}
+        </>
+      )}
     </div>
   );
 };

@@ -1,0 +1,71 @@
+/* expenseForm.css */
+
+.expense-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #d9d9d9;
+}
+
+.expense-form-card {
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px 30px;
+  margin: 20px 30px;
+  width: 400px;
+}
+
+.expense-form-card h3 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.form-group input[type='number'] {
+  /* Additional styling for number inputs, if needed */
+}
+
+.form-group input[required]::placeholder {
+  color: #999;
+}
+
+.add-expense {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+/* Responsive Design (Example) */
+@media (max-width: 768px) {
+  .expense-form-card {
+    width: 90%;
+  }
+}
+
+/* Error Handling (Example) */
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}

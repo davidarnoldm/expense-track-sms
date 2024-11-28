@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import './styles.css'
 
 const ExpenseForm = ({ onSubmit }) => {
   const [name, setName] = useState('');
@@ -30,41 +31,55 @@ const ExpenseForm = ({ onSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Expense Name:</label>
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-      </div>
-      <div>
-        <label>Date of Entry:</label>
-        <input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-        />
-      </div>
-      <div>
-        <label>Credit:</label>
-        <input
-          type="number"
-          value={credit}
-          onChange={(e) => setCredit(e.target.value)}
-        />
-      </div>
-      <div>
-        <label>Debit:</label>
-        <input
-          type="number"
-          value={debit}
-          onChange={(e) => setDebit(e.target.value)}
-        />
-      </div>
-      <button type="submit">Add Expense</button>
-    </form>
+    <div className="expense-form-container">
+      <form onSubmit={handleSubmit}>
+        <div className="expense-form-card">
+          <h3>Add Expense</h3>
+          <div className="form-group">
+            <label htmlFor="expenseName">Expense Name:</label>
+            <input
+              type="text"
+              id="expenseName"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Enter expense name"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="dateEntry">Date of Entry:</label>
+            <input
+              type="date"
+              id="dateEntry"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="credit">Credit:</label>
+            <input
+              type="number"
+              id="credit"
+              value={credit}
+              onChange={(e) => setCredit(e.target.value)}
+              placeholder="Enter credit amount"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="debit">Debit:</label>
+            <input
+              type="number"
+              id="debit"
+              value={debit}
+              onChange={(e) => setDebit(e.target.value)}
+              placeholder="Enter debit amount"
+            />
+          </div>
+          <button className="add-expense" type="submit">Add Expense</button>
+        </div>
+      </form>
+    </div>
   );
 };
 
