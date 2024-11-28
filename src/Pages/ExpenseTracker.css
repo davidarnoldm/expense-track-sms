@@ -53,7 +53,7 @@ tr:nth-child(odd) {
   text-align: right;
 }
 
-button {
+.button-style {
   padding: 5px 10px;
   border: none;
   border-radius: 4px;
@@ -89,4 +89,9 @@ button {
 
 .delete-btn:hover {
   background-color: #C62828;
+}
+
+.edit-btn-style {
+  border: none;
+  background-color: transparent;
 }

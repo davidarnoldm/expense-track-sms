@@ -12,8 +12,8 @@ import {
   orderBy,
   query,
 } from 'firebase/firestore';
-// import { AiEditOutlined, AiDeleteOutlined } from 'react-icons/ai';
-
+import { AiOutlineEdit } from 'react-icons/ai';
+import { MdDelete } from 'react-icons/md';
 
 const ExpenseTracker = ({ userUidValue }) => {
   const userDocRef = doc(db, 'users', userUidValue);
@@ -149,7 +149,9 @@ const ExpenseTracker = ({ userUidValue }) => {
         <ExpenseForm onSubmit={handleExpenseSubmit} />
       ) : (
         <>
-          <button className='add-expense-btn' onClick={handleAddExpense}>Add New Expense</button>
+          <button className="add-expense-btn" onClick={handleAddExpense}>
+            Add New Expense
+          </button>
           <table>
             <thead>
               <tr>
@@ -186,17 +188,21 @@ const ExpenseTracker = ({ userUidValue }) => {
                     {isEditing &&
                     expense.id === editingExpense.id &&
                     editingField === 'name' ? (
-                      <button onClick={() => handleSaveEdit(editingExpense)}>
+                      <button
+                        onClick={() => handleSaveEdit(editingExpense)}
+                        className="save-btn"
+                      >
                         Save
                       </button>
                     ) : (
                       <button
+                        className="edit-btn-style"
                         onClick={() => {
                           handleEditExpense(expense);
                           setEditingField('name');
                         }}
                       >
-                        Edit
+                        <AiOutlineEdit />
                       </button>
                     )}
                   </td>
@@ -222,17 +228,21 @@ const ExpenseTracker = ({ userUidValue }) => {
                     {isEditing &&
                     expense.id === editingExpense.id &&
                     editingField === 'credit' ? (
-                      <button onClick={() => handleSaveEdit(editingExpense)}>
+                      <button
+                        onClick={() => handleSaveEdit(editingExpense)}
+                        className="save-btn"
+                      >
                         Save
                       </button>
                     ) : (
                       <button
+                        className="edit-btn-style"
                         onClick={() => {
                           handleEditExpense(expense);
                           setEditingField('credit');
                         }}
                       >
-                        Edit
+                        <AiOutlineEdit />
                       </button>
                     )}
                   </td>
@@ -257,30 +267,31 @@ const ExpenseTracker = ({ userUidValue }) => {
                     {isEditing &&
                     expense.id === editingExpense.id &&
                     editingField === 'debit' ? (
-                      <button onClick={() => handleSaveEdit(editingExpense)}>
+                      <button
+                        onClick={() => handleSaveEdit(editingExpense)}
+                        className="save-btn"
+                      >
                         Save
                       </button>
                     ) : (
                       <button
+                        className="edit-btn-style"
                         onClick={() => {
                           handleEditExpense(expense);
                           setEditingField('debit');
                         }}
                       >
-                        Edit
+                        <AiOutlineEdit />
                       </button>
                     )}
                   </td>
                   <td>
-                    {/* {isEditing && expense.id === editingExpense.id ? (
-                <button onClick={() => handleSaveEdit(editingExpense)}>
-                  Save
-                </button>
-              ) : ( */}
-                    <button onClick={() => handleDeleteExpense(expense.id)}>
-                      Delete
+                    <button
+                      onClick={() => handleDeleteExpense(expense.id)}
+                      className="edit-btn-style"
+                    >
+                      <MdDelete />
                     </button>
-                    {/* )} */}
                   </td>
                 </tr>
               ))}
@@ -290,6 +301,7 @@ const ExpenseTracker = ({ userUidValue }) => {
                 </td>
                 <td>{totalCredit}</td>
                 <td>{totalDebit}</td>
+                <td></td>
               </tr>
             </tbody>
           </table>{' '}
