@@ -12,6 +12,8 @@ import {
   orderBy,
   query,
 } from 'firebase/firestore';
+// import { AiEditOutlined, AiDeleteOutlined } from 'react-icons/ai';
+
 
 const ExpenseTracker = ({ userUidValue }) => {
   const userDocRef = doc(db, 'users', userUidValue);
@@ -147,7 +149,7 @@ const ExpenseTracker = ({ userUidValue }) => {
         <ExpenseForm onSubmit={handleExpenseSubmit} />
       ) : (
         <>
-          <button onClick={handleAddExpense}>Add New Expense</button>
+          <button className='add-expense-btn' onClick={handleAddExpense}>Add New Expense</button>
           <table>
             <thead>
               <tr>
